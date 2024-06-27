@@ -1,0 +1,380 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <conio.h>
+
+//ATENCAO Por favor corrigir no Windows  para o #include <windows.h> e o system("cls") funcionarem como esperado:) !
+
+int main() {
+ 
+   int matrix_size, size, matrix[5][5], menu, sum_matrix = 0, main_diagonal = 0, secondary_diagonal = 0;
+   int min_element, max_element, min_row, min_col, max_row, max_col, det_matrix2, det_matrix3; 
+   float escalar,matrix_escalar[5][5];
+
+   //Titulo da calculadora
+   char palavra[] = "=============================== CALCULADORA DE ==============================\n"
+    "___  ___      _        _                             _               _\n"
+    "|  \\/  |     | |      (_)                           | |             | |\n"
+    "| .  . | __ _| |_ _ __ _ ____   __ _ _   _  __ _  __| |_ __ __ _  __| | __ _\n"
+    "| |\\/| |/ _` | __| '__| |_  /  / _` | | | |/ _` |/ _` | '__/ _` |/ _` |/ _` |\n"
+    "| |  | | (_| | |_| |  | |/ /  | (_| | |_| | (_| | (_| | | | (_| | (_| | (_| |\n"
+    "\\_|  |_/\\__,_|\\__|_|  |_/___|  \\__, |\\__,_|\\__,_|\\__,_|_|  \\__,_|\\__,_|\\__,_|\n"
+    "                                  | |\n"
+    "                                  |_|\n"
+    "=============================================================================\n";
+
+    int num_linhas = 10; 
+
+    char *linhas[num_linhas];
+    char *token = strtok(palavra, "\n");
+    int linha_atual = 0;
+
+    while (token != NULL) {
+        linhas[linha_atual++] = token;
+        token = strtok(NULL, "\n");
+    }
+
+    for (int i = 0; i < num_linhas; i++) {
+        printf("%s\n", linhas[i]);
+        Sleep(80);
+    }
+
+   //Inicio do código
+
+   do{
+   printf("Digite o tamanho da Matriz: ");
+   scanf("%d", &matrix_size);
+   system("cls");
+   if (matrix_size < 2 || matrix_size > 5){
+   printf("\nVALOR INVÁLIDO\n");
+   }
+   }while(matrix_size < 2 || matrix_size > 5 );
+   while (getchar() != '\n')
+   system("cls");
+
+    printf("Digite os elementos da matriz M:\n");
+    switch(matrix_size){
+        case 2: printf(" M = [ m(0,0) m(0,1) ] \n     "
+                         "[ m(1,0) m(1,1) ]\n"
+                         "-------------------------------------------------------------------------------------------------\n");
+                         for(int i = 0; i < 2; i++){
+		                    for(int j = 0; j < 2; j++){
+                                printf("- m(%d,%d): ", i, j );
+                                scanf("%d", &matrix[i][j]);
+                                while (getchar() != '\n');
+                            }
+                         }  
+        break;
+        case 3: printf(" M = [ m(0,0) m(0,1) m(0,2) ] \n     "
+                         "[ m(1,0) m(1,1) m(1,2) ] \n     "
+                         "[ m(2,0) m(2,1) m(2,2) ]\n"
+                         "-------------------------------------------------------------------------------------------------\n");
+                         for(int i = 0; i < 3; i++){
+		                    for(int j = 0; j < 3; j++){
+                                printf("- m(%d,%d): ", i, j );
+                                scanf("%d", &matrix[i][j]);
+                                while (getchar() != '\n');
+                            }
+                         }  
+        break;
+        case 4: printf(" M = [ m(0,0) m(0,1) m(0,2) m(0,3) ] \n     "
+                         "[ m(1,0) m(1,1) m(1,2) m(1,3) ] \n     "
+                         "[ m(2,0) m(2,1) m(2,2) m(2,3) ] \n     "
+                         "[ m(3,0) m(3,1) m(3,2) m(3,3) ]\n"
+                         "-------------------------------------------------------------------------------------------------\n");
+                         for(int i = 0; i < 4; i++){
+		                    for(int j = 0; j < 4; j++){
+                                printf("- m(%d,%d): ", i, j );
+                                scanf("%d", &matrix[i][j]);
+                                 while (getchar() != '\n');
+                            }
+                         }
+         break;
+
+        case 5: printf(" M = [ m(0,0) m(0,1) m(0,2) m(0,3) m(0,4) ] \n     "
+                         "[ m(1,0) m(1,1) m(1,2) m(1,3) m(1,4) ] \n     "
+                         "[ m(2,0) m(2,1) m(2,2) m(2,3) m(2,4) ] \n     "
+                         "[ m(3,0) m(3,1) m(3,2) m(3,3) m(3,4) ] \n     "
+                         "[ m(4,0) m(4,1) m(4,2) m(4,3) m(4,4) ]\n"
+                         "-------------------------------------------------------------------------------------------------\n");
+                         for(int i = 0; i < 5; i++){
+		                    for(int j = 0; j < 5; j++){
+                                printf("- m(%d,%d): ", i, j );
+                                scanf("%d", &matrix[i][j]);
+                                 while (getchar() != '\n');
+                            }
+                         }
+
+        break;
+        }
+   
+
+    
+      system("cls");
+      //Mostrar a matriz informada
+      printf("Matriz informada: \n");
+      switch(matrix_size){
+
+      case 2:
+      printf(" M = [ %d  %d ] \n     [ %d  %d ]\n", matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1] );
+      printf("-------------------------------------------------------------------------------------------------\n");
+      size = 2;
+      break;
+
+      case 3:
+      printf(" M = [ %d  %d  %d ] \n     [ %d  %d  %d ] \n     [ %d  %d  %d ] \n", matrix[0][0], matrix[0][1], matrix[0][2],
+      matrix[1][0], matrix[1][1], matrix[1][2], matrix[2][0], matrix[2][1], matrix[2][2]);
+      printf("-------------------------------------------------------------------------------------------------\n");
+      size = 3;
+      break;
+
+      case 4:
+      printf(" M = [ %d  %d  %d  %d ] \n     [ %d  %d  %d  %d ] \n     [ %d  %d  %d  %d ] \n     [ %d  %d  %d  %d ] \n", matrix[0][0], matrix[0][1], 
+      matrix[0][2], matrix[0][3], matrix[1][0], matrix[1][1], matrix[1][2],matrix[1][3], matrix[2][0], matrix[2][1], matrix[2][2], 
+      matrix[2][3], matrix[3][0], matrix[3][1], matrix[3][2], matrix[3][3]);
+      printf("-------------------------------------------------------------------------------------------------\n");
+      size = 4;
+      break;
+
+      case 5:
+      printf(" M = [ %d  %d  %d  %d  %d ] \n     [ %d  %d  %d  %d  %d ] \n     [ %d  %d  %d  %d  %d ] \n     [ %d  %d  %d  %d  %d ] \n     [ %d  %d  %d  %d  %d ] \n",
+      matrix[0][0], matrix[0][1], matrix[0][2], matrix[0][3],matrix[0][4], matrix[1][0], matrix[1][1], matrix[1][2], matrix[1][3], matrix[1][4],
+      matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3], matrix[2][4], matrix[3][0], matrix[3][1], matrix[3][2], matrix[3][3], matrix[3][4],
+      matrix[4][0], matrix[4][1], matrix[4][2], matrix[4][3], matrix[4][4]);
+      printf("-------------------------------------------------------------------------------------------------\n");
+      size = 5;
+      break;    
+     }
+
+   //Menu
+   do{ 
+   printf("Menu\n1. Multiplicar por escalar.\n2. Somar elementos.\n3. Somar diagonal principal.\n4. Somar diagonal secundaria.\n"
+   "5. Coordenadas do maior e menor elemento.\n6. Matriz transposta.\n7. Calcular determinante\n8. Calcular matriz inversa.\n0. Sair\n");
+   printf("Escolha uma opcao: ");
+   scanf("%d", &menu);
+   switch(menu){
+      case 0: 
+      break;
+
+      case 1:
+         printf("Digite o valor do escalar: ");
+         scanf("%f", &escalar);
+         for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+               matrix_escalar[i][j] = matrix[i][j] * escalar;
+            }
+         }  
+         system("cls"); 
+         printf("M * %.2f = ", escalar);
+            switch(matrix_size){
+               case 2: 
+                  printf("[ %.1f  %.1f ] \n           [ %.1f  %.1f ]\n", matrix_escalar[0][0], matrix_escalar[0][1], matrix_escalar[1][0], matrix_escalar[1][1] );
+               break;
+
+               case 3:
+                  printf("[ %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f ] \n", matrix_escalar[0][0], matrix_escalar[0][1], matrix_escalar[0][2],
+                  matrix_escalar[1][0], matrix_escalar[1][1], matrix_escalar[1][2], matrix_escalar[2][0], matrix_escalar[2][1], matrix_escalar[2][2]);
+               break;
+
+               case 4:
+                  printf("[ %.1f  %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f  %.1f ] \n", matrix_escalar[0][0], matrix_escalar[0][1], 
+                  matrix_escalar[0][2], matrix_escalar[0][3], matrix_escalar[1][0], matrix_escalar[1][1], matrix_escalar[1][2],matrix_escalar[1][3], matrix_escalar[2][0], matrix_escalar[2][1], matrix_escalar[2][2], 
+                  matrix_escalar[2][3], matrix_escalar[3][0], matrix_escalar[3][1], matrix_escalar[3][2], matrix_escalar[3][3]);
+               break;
+            
+               case 5:
+                  printf("[ %.1f  %.1f  %.1f  %.1f  %.1f  ] \n           [ %.1f  %.1f  %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f  %.1f  %.1f ] \n           [ %.1f  %.1f  %.1f  %.1f  %.1f ] \n",
+                  matrix_escalar[0][0], matrix_escalar[0][1], matrix_escalar[0][2], matrix_escalar[0][3],matrix_escalar[0][4], matrix_escalar[1][0], matrix_escalar[1][1], matrix_escalar[1][2], matrix_escalar[1][3], matrix_escalar[1][4],
+                  matrix_escalar[2][0], matrix_escalar[2][1], matrix_escalar[2][2], matrix_escalar[2][3], matrix_escalar[2][4], matrix_escalar[3][0], matrix_escalar[3][1], matrix_escalar[3][2], matrix_escalar[3][3], matrix_escalar[3][4],
+                  matrix_escalar[4][0], matrix_escalar[4][1], matrix_escalar[4][2], matrix_escalar[4][3], matrix_escalar[4][4]);
+               break;
+            }
+            printf("-------------------------------------------------------------------------------------------------\n");   
+      break;
+
+      case 2:
+         system("cls"); 
+         for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+               sum_matrix += matrix[i][j];
+            }
+         }  
+         printf("Soma dos elementos: %d\n-------------------------------------------------------------------------------------------------\n", sum_matrix);
+      break;
+
+      case 3: 
+         system("cls");
+         for(int i = 0; i < size; i++){
+               main_diagonal += matrix[i][i];
+         }
+         printf("Soma da diagonal principal: %d", main_diagonal);
+         printf("\n-------------------------------------------------------------------------------------------------\n");
+      break;
+
+      case 4: 
+         system("cls");
+          for(int i = 0; i < size; i++){
+               secondary_diagonal += matrix[size - 1 - i][i];
+         }
+         printf("Soma da diagonal secundaria: %d", secondary_diagonal);
+         printf("\n-------------------------------------------------------------------------------------------------\n");
+      break;
+
+      case 5: 
+         system("cls");  
+         min_element = max_element = matrix[0][0];
+         min_row = max_row = min_col = max_col = 0;
+
+         for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+               if (matrix[i][j] < min_element){
+                  min_element = matrix[i][j];
+                  min_row = i;
+                  min_col = j;
+               }
+               if (matrix[i][j] > max_element){
+                  max_element = matrix[i][j];
+                  max_row = i;
+                  max_col = j;
+               }
+            }
+         }
+         printf("Coordenadas do menor elemento: (%d,%d)\n", min_row, min_col);
+         printf("Coordenadas do maior elemento: (%d,%d)\n", max_row, max_col); 
+         printf("-------------------------------------------------------------------------------------------------\n");  
+      break;
+
+      case 6:
+         system("cls"); 
+         switch(matrix_size){
+            case 2: 
+               printf(" M^T = [ %d  %d ] \n       "
+               "[ %d  %d ]\n", matrix[0][0], matrix[1][0], matrix[0][1], matrix[1][1] );
+               printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+
+            case 3:
+               printf(" M^T = [ %d  %d  %d ] \n       [ %d  %d  %d ] \n       [ %d  %d  %d ] \n", matrix[0][0], matrix[1][0], matrix[2][0],
+               matrix[0][1], matrix[1][1], matrix[2][1], matrix[0][2], matrix[1][2], matrix[2][2]);
+               printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+
+            case 4: 
+               printf(" M^T = [ %d  %d  %d  %d ] \n       [ %d  %d  %d  %d ] \n       [ %d  %d  %d  %d ] \n       [ %d  %d  %d  %d ] \n", matrix[0][0], matrix[1][0], 
+               matrix[2][0], matrix[3][0], matrix[0][1], matrix[1][1], matrix[2][1],matrix[3][1], matrix[0][2], matrix[1][2], matrix[2][2], 
+               matrix[3][2], matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
+               printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+
+            case 5:
+               printf(" M^T = [ %d  %d  %d  %d  %d ] \n       [ %d  %d  %d  %d  %d ] \n       [ %d  %d  %d  %d  %d ] \n       [ %d  %d  %d  %d  %d ] \n       [ %d  %d  %d  %d  %d ] \n",
+               matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],matrix[4][0], matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1], matrix[4][1],
+               matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2], matrix[4][2], matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3], matrix[4][3],
+               matrix[0][4], matrix[1][4], matrix[2][4], matrix[3][4], matrix[4][4]);
+               printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+
+         }
+      break;
+
+      case 7:
+         system("cls"); 
+         switch(matrix_size){
+            case 2: 
+               det_matrix2 = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+               printf("Determinante : %d\n", det_matrix2);
+                printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+
+            case 3:
+               det_matrix3 = matrix[0][0] * matrix[1][1] * matrix[2][2] +
+                             matrix[0][1] * matrix[1][2] * matrix[2][0] +
+                             matrix[0][2] * matrix[1][0] * matrix[2][1] -
+                             matrix[0][2] * matrix[1][1] * matrix[2][0] -
+                             matrix[0][0] * matrix[1][2] * matrix[2][1] -
+                             matrix[0][1] * matrix[1][0] * matrix[2][2];
+               printf("Determinante : %d \n", det_matrix3);
+                printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+
+            case 4: printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+
+            case 5: printf("-------------------------------------------------------------------------------------------------\n");
+            break;
+         }
+      break;
+      case 8:
+         system("cls");
+         if(matrix_size == 2){
+
+            double A[2][2], matrix_inv2[2][2];
+
+            for (int i = 0; i < 2; i++) {
+               for (int j = 0; j < 2; j++) {
+                  A[i][j] = matrix[i][j];
+               }
+            }
+            
+            double det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
+
+            if (det == 0) {
+               printf("A matriz nao tem inversa (determinante = 0).\n-------------------------------------------------------------------------------------------------\n");
+               break;
+            }
+            double invDet = 1.0 / det;
+
+            matrix_inv2[0][0] = A[1][1] * invDet;
+            matrix_inv2[0][1] = -A[0][1] * invDet;
+            matrix_inv2[1][0] = -A[1][0] * invDet;
+            matrix_inv2[1][1] = A[0][0] * invDet;
+
+            printf(" M^-1 = [ %.3f  %.3f ] \n        "
+            "[ %.3f  %.3f ]\n", matrix_inv2[0][0], matrix_inv2[0][1], matrix_inv2[1][0], matrix_inv2[1][1] );
+            printf("-------------------------------------------------------------------------------------------------\n");
+
+         }else if(matrix_size == 3){
+
+            double A3[3][3], matrix_inv3[3][3];
+            
+            for (int i = 0; i < 3; i++) {
+               for (int j = 0; j < 3; j++) {
+                  A3[i][j] = matrix[i][j];
+               }
+            }
+
+            double det = A3[0][0] * (A3[1][1] * A3[2][2] - A3[1][2] * A3[2][1]) -
+                         A3[0][1] * (A3[1][0] * A3[2][2] - A3[1][2] * A3[2][0]) +
+                         A3[0][2] * (A3[1][0] * A3[2][1] - A3[1][1] * A3[2][0]);
+
+            if (det == 0) {
+               printf("A matriz nao tem inversa (determinante = 0).\n-------------------------------------------------------------------------------------------------\n");
+               break;
+            }   
+
+            double invDet = 1.0 / det;
+
+            matrix_inv3[0][0] =  (A3[1][1] * A3[2][2] - A3[1][2] * A3[2][1]) * invDet;
+            matrix_inv3[0][1] = -(A3[0][1] * A3[2][2] - A3[0][2] * A3[2][1]) * invDet;
+            matrix_inv3[0][2] =  (A3[0][1] * A3[1][2] - A3[0][2] * A3[1][1]) * invDet;
+            matrix_inv3[1][0] = -(A3[1][0] * A3[2][2] - A3[1][2] * A3[2][0]) * invDet;
+            matrix_inv3[1][1] =  (A3[0][0] * A3[2][2] - A3[0][2] * A3[2][0]) * invDet;
+            matrix_inv3[1][2] = -(A3[0][0] * A3[1][2] - A3[0][2] * A3[1][0]) * invDet;
+            matrix_inv3[2][0] =  (A3[1][0] * A3[2][1] - A3[1][1] * A3[2][0]) * invDet;
+            matrix_inv3[2][1] = -(A3[0][0] * A3[2][1] - A3[0][1] * A3[2][0]) * invDet;
+            matrix_inv3[2][2] =  (A3[0][0] * A3[1][1] - A3[0][1] * A3[1][0]) * invDet;
+
+            printf(" M^-1 = [ %.3f  %.3f  %.3f ] \n        [ %.3f  %.3f  %.3f ] \n        [ %.3f  %.3f  %.3f ] \n", matrix_inv3[0][0], matrix_inv3[0][1], matrix_inv3[0][2],
+            matrix_inv3[1][0], matrix_inv3[1][1], matrix_inv3[1][2], matrix_inv3[2][0], matrix_inv3[2][1], matrix_inv3[2][2]);
+            printf("-------------------------------------------------------------------------------------------------\n");
+         }else printf("-------------------------------------------------------------------------------------------------\n");
+         break;
+
+         default: system("cls");
+            printf("Valor invalido por favor escolha uma das opcoes abaixo: \n");
+            printf("-------------------------------------------------------------------------------------------------\n");
+      }
+         
+   }while(menu != 0);
+     return 0;
+}
